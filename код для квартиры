@@ -1,0 +1,44 @@
+#include <SoftwareSerial.h> //библиотека для обмена данными
+SoftwareSerial softSerial(8, 9); // RX, TX>
+int alarm = 0;
+void setup()
+{ 
+  digitalWrite(13,HIGH); // зеленая лампа питания
+  pinMode(A0, INPUT); // датчик газа
+  pinMode(A1, INPUT); // датчик температуры
+  pinMode(4, INPUT); // кнопка сброса
+  pinMode(2, OUTPUT); // красная лампа клапана
+  pinMode(3, OUTPUT); // желтая лампа аварии
+  pinMode(5, OUTPUT); // синяя лампа заряда батареи
+   
+}
+
+void loop()
+{ Serial.begin(9600);
+  if ((analogRead(A0) > 400 || analogRead(A1) > 200) && digitalRead(4) == LOW) {
+   {
+    digitalWrite(2, HIGH);
+    tone(2,200);
+    digitalWrite(3, HIGH);
+     alarm == 1;
+      
+   }}
+ else {
+    digitalWrite(2, LOW);
+    noTone(2);
+    digitalWrite(3, LOW);
+   alarm == 0;
+    
+  }
+  if (analogRead(A2)<450)
+  {digitalWrite(5, HIGH);
+  }
+ else  {digitalWrite(5, LOW);
+        }
+  
+  Serial.println(analogRead(A2));
+ 
+  softSerial.write(alarm);
+  
+  delay(10); // Delay a little bit to improve simulation performance
+}
